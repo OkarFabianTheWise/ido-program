@@ -3,6 +3,8 @@ use anchor_lang::prelude::*;
 // Error Codes
 #[error_code]
 pub enum ErrorCode {
+    #[msg("Invalid token mint account.")]
+    InvalidTokenMint,
     #[msg("The sale is not active.")]
     SaleNotActive,
     #[msg("The buyer is not whitelisted.")]

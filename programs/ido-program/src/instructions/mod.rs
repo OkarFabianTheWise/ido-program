@@ -4,9 +4,6 @@ pub mod initialize_sale;
 pub use add_to_whitelist::*;
 pub mod add_to_whitelist;
 
-pub use calculate_vested_amount::*;
-pub mod calculate_vested_amount;
-
 pub use claim::*;
 pub mod claim;
 

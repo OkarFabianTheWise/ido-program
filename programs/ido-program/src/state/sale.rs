@@ -8,4 +8,5 @@ pub struct SaleState {
     pub end_time: i64,
     pub token_price: u64,
     pub total_tokens: u64,
+    pub sold_tokens: u64,
 }

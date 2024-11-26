@@ -4,7 +4,13 @@ use anchor_lang::prelude::*;
 // Add a user to the whitelist
 pub fn add_to_whitelist(ctx: Context<AddToWhitelist>, user: Pubkey) -> Result<()> {
     let whitelist = &mut ctx.accounts.whitelist;
-    whitelist.users.insert(user, true);
+
+    // Check if the user already exists in the whitelist
+    if !whitelist.users.iter().any(|(key, _)| *key == user) {
+        // Add the user to the whitelist
+        whitelist.users.push((user, true));
+    }
+
     Ok(())
 }
 

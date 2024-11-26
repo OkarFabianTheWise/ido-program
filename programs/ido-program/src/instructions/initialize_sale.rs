@@ -1,10 +1,16 @@
 use crate::errors::ErrorCode;
 use crate::state::*;
-use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
+use anchor_lang::{prelude::*, solana_program::program_pack::Pack};
+use anchor_spl::token_2022::spl_token_2022::state::Mint;
 
-// Initialize the IDO sale
 pub fn initialize_sale(ctx: Context<InitializeSale>, params: SaleParams) -> Result<()> {
+    let mint_account_info = ctx.accounts.token_mint.to_account_info();
+    let mint_data = mint_account_info.data.borrow();
+
+    // Validate token mint account
+    let mint = Mint::unpack(&mint_data)?;
+    require!(mint.is_initialized, ErrorCode::InvalidTokenMint);
+
     let sale_state = &mut ctx.accounts.sale_state;
     sale_state.token_mint = ctx.accounts.token_mint.key();
     sale_state.start_time = params.start_time;
@@ -23,7 +29,8 @@ pub struct InitializeSale<'info> {
     pub sale_state: Account<'info, SaleState>,
     #[account(init, payer = admin, space = 8 + 32 + 8)] // Adjust space as needed
     pub whitelist: Account<'info, Whitelist>,
-    pub token_mint: Account<'info, Mint>,
+    /// CHECK: This is a token mint account, validated in the handler.
+    pub token_mint: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
 }
 

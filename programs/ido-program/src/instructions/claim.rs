@@ -1,7 +1,8 @@
 use crate::errors::ErrorCode;
 use crate::state::*;
+use crate::utils::*;
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
+use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
 // Claim vested tokens
 pub fn claim(ctx: Context<Claim>) -> Result<()> {
@@ -41,6 +42,7 @@ pub struct Claim<'info> {
     pub vault_token_account: Account<'info, TokenAccount>,
     #[account(mut)]
     pub beneficiary_token_account: Account<'info, TokenAccount>,
+    /// CHECK: This account is derived programmatically using seeds and does not need further validation.
     #[account(seeds = [b"vault_authority"], bump)]
     pub vault_authority: AccountInfo<'info>,
     pub token_program: Program<'info, Token>,

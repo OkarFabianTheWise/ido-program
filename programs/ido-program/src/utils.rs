@@ -1,7 +1,5 @@
-use anchor_lang::prelude::*;
-
 // Helper functions
-fn calculate_vested_amount(
+pub fn calculate_vested_amount(
     cliff_end: i64,
     vesting_end: i64,
     current_time: i64,

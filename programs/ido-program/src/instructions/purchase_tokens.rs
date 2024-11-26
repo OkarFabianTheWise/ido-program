@@ -16,7 +16,10 @@ pub fn purchase_tokens(ctx: Context<Purchase>, amount: u64) -> Result<()> {
     // Validate whitelist
     let whitelist = &ctx.accounts.whitelist;
     require!(
-        whitelist.users.contains_key(&ctx.accounts.buyer.key()),
+        whitelist
+            .users
+            .iter()
+            .any(|(key, _)| *key == ctx.accounts.buyer.key()),
         ErrorCode::NotWhitelisted
     );
 
@@ -61,6 +64,7 @@ pub struct Purchase<'info> {
     #[account(mut)]
     pub whitelist: Account<'info, Whitelist>,
     #[account(mut)]
+    /// CHECK:` doc comment explaining why no checks through types are necessary.
     pub sale_vault: AccountInfo<'info>,
     #[account(init, payer = buyer, space = 8 + std::mem::size_of::<VestingState>())]
     pub vesting_state: Account<'info, VestingState>,

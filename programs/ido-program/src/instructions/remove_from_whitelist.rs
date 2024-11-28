@@ -11,7 +11,6 @@ pub fn remove_from_whitelist(ctx: Context<RemoveFromWhitelist>, user: Pubkey) ->
         whitelist.users.remove(pos);
     } else {
         // User not found, handle accordingly (optional)
-        // ErrorCode::NotWhitelisted
         return Err(ErrorCode::NotWhitelisted.into());
     }
     Ok(())

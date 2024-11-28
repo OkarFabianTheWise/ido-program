@@ -2,6 +2,7 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { IdoProgram } from "../target/types/ido_program";
 import { assert, expect } from "chai";
+// https://rpc.devnet.soo.network/rpc
 
 describe("ido-program", () => {
   const provider = anchor.AnchorProvider.env();
